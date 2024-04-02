@@ -12,7 +12,6 @@ db = Database("./database.db")
 class Settings(StatesGroup):
     choosing_crypto = State()
 
-
 @router.message(StateFilter(None), Command("settings"))
 async def cmd_settings(message: Message):
     if message.chat.type == 'private':

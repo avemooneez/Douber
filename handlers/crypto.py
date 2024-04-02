@@ -11,9 +11,6 @@ db = Database("./database.db")
 @router.message(Command("crypto"))
 async def cmd_crypto(message: Message):
     if message.chat.type == 'private':
-        #response = requests.get(url="https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT").json().get('price')
-        #data = response.json()
-        #btc_price = data.get('price')
         msg = f"Time: UTC+3 {datetime.now().strftime('%H:%M:%S')}"
         selectedCryptos = db.get_selectedCryptos(message.from_user.id)
         if selectedCryptos[0][0] == 1:

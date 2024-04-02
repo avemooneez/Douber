@@ -20,11 +20,6 @@ class Database:
 
     def start(self):
         with self.conn:
-            #cur.execute("DROP TABLE `users`")
-            #self.cur.execute("CREATE TABLE IF NOT EXISTS `users` (user_id INTEGER UNIQUE NOT NULL, IsAdmin INTEGER DEFAULT (0), IsActive INTEGER DEFAULT (1))")
-            #cur.execute("DELETE FROM `users` WHERE `name` = ?", ("тест",))
-            #self.cur.execute("ALTER TABLE `users` ADD DOGEUSDT INTEGER DEFAULT 0"
-            #self.cur.execute("UPDATE `users` SET `IsAdmin` = 1 WHERE `user_id` = ?", ('6179344394',))
             print(self.cur.execute("SELECT * FROM `users`").fetchall())
         
     def get_db(self):
@@ -39,18 +34,6 @@ class Database:
     def add_user(self, user_id):
         with self.conn:
             return self.cur.execute("INSERT INTO `users` (user_id) VALUES (?)", (user_id,))
-
-    def set_active(self, user_id, active):
-        with self.conn:
-            return self.cur.execute("UPDATE `users` SET `IsActive` = ? WHERE `user_id` = ?", (active, user_id,))
-
-    def get_user(self, user_id):
-        with self.conn:
-            return self.cur.execute("SELECT `user_id`, `IsActive` FROM `users` WHERE `user_id` = ?", (user_id,)).fetchall()
-    
-    def isAdmin(self, user_id):
-        with self.conn:
-            return self.cur.execute("SELECT `IsAdmin` FROM `users` WHERE `user_id` = ?", (user_id,))
     
     def get_selectedCryptos(self, user_id):
         with self.conn:
