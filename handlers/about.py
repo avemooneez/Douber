@@ -9,7 +9,7 @@ async def cmd_help(message: Message):
     if message.chat.type == 'private':
         await message.answer(
     """
-Привет! Это — бот-помощник от компании <b><a href="https://t.me/tivehive">TiveHive</a></b>.
+Это — бот-помощник от компании <b><a href="https://t.me/tivehive">TiveHive</a></b>.
 Автор: @mnz_pr
 Исходный код: https://github.com/avemooneez/Douber
 
