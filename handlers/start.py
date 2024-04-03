@@ -12,4 +12,4 @@ async def cmd_start(message: Message):
         if not db.user_exists(message.from_user.id):
             db.add_user(message.from_user.id)
             print(db.get_db())
-        await message.answer("Welcome!")
+        await message.answer("Привет! Напиши /about чтобы узнать больше о этом боте.")

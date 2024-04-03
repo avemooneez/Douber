@@ -24,7 +24,7 @@ async def cmd_settings(message: Message):
 async def answer_crypto(message: Message):
     await message.answer("Принято!", reply_markup=ReplyKeyboardRemove())
     await message.answer(
-        "Выберите криптовалюты для отображения в /crypto.",
+        "Выберите криптовалюты для отображения",
         reply_markup=crypto.get_cryptos(message.from_user.id)
     )
 
