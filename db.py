@@ -1,17 +1,5 @@
 import sqlite3
 
-"""
-TABLE `users`:
-user_id INTEGER UNIQUE NOT NULL,
-IsAdmin INTEGER DEFAULT (0),
-IsActive INTEGER DEFAULT (1),
-BTCUSDT INTEGER DEFAULT (1),
-ETHUSDT INTEGER DEFAULT (0),
-TONUSDT INTEGER DEFAULT (0),
-SOLUSDT INTEGER DEFAULT (0),
-ADAUSDT INTEGER DEFAULT (0),
-DOGEUSDT INTEGER DEFAULT (0)"""
-
 class Database:
     def __init__(self, db_file):
         self.conn = sqlite3.connect(db_file)
