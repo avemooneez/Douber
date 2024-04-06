@@ -1,6 +1,5 @@
 from aiogram.types import Message, ReplyKeyboardRemove, CallbackQuery
 from aiogram.filters import Command, StateFilter
-from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import StatesGroup, State
 from aiogram import Router, F
 from keyboards import settings, crypto
@@ -36,7 +35,6 @@ async def edit_kb(callback: CallbackQuery):
             OnOff = 0
         elif OnOff[0][0] == 0:
             OnOff = 1
-
         db.edit_selectedCryptos(callback.from_user.id, "BTC", OnOff)
         await callback.bot.edit_message_reply_markup(
             chat_id=callback.from_user.id,
