@@ -11,5 +11,5 @@ async def cmd_start(message: Message):
     if message.chat.type == 'private':
         if not db.user_exists(message.from_user.id):
             db.add_user(message.from_user.id)
-            print(db.get_db())
+            db.get_db()
         await message.answer("Привет! Напиши /about чтобы узнать больше о этом боте.")
