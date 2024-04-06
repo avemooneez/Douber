@@ -1,10 +1,9 @@
 from aiogram.types import Message
 from aiogram.filters import Command
-from aiogram import Router
-from filters.chat_type import ChatTypeFilter
+from aiogram import Router, F
 
 router = Router()
-router.message.filter(ChatTypeFilter(chat_type=["private"]))
+router.message.filter(F.chat.type.in_({"private"}))
 
 @router.message(Command("about"))
 async def cmd_help(message: Message):

@@ -1,13 +1,12 @@
 from aiogram.types import Message
 from aiogram.filters import Command
-from aiogram import Router
+from aiogram import Router, F
 import requests
 from datetime import datetime
 from db import Database
-from filters.chat_type import ChatTypeFilter
 
 router = Router()
-router.message.filter(ChatTypeFilter(chat_type=["private"]))
+router.message.filter(F.chat.type.in_({"private"}))
 db = Database("./database.db")
 
 @router.message(Command("crypto"))

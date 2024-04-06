@@ -1,14 +1,12 @@
 from aiogram.types import Message, ReplyKeyboardRemove, CallbackQuery
 from aiogram.filters import Command, StateFilter
 from aiogram.fsm.state import StatesGroup, State
-from aiogram import Router, F
+from aiogram import Router, F, F
 from keyboards import settings, crypto
 from db import Database
-from filters.chat_type import ChatTypeFilter
-
 
 router = Router()
-router.message.filter(ChatTypeFilter(chat_type=["private"]))
+router.message.filter(F.chat.type.in_({"private"}))
 db = Database("./database.db")
 
 class Settings(StatesGroup):
