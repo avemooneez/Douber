@@ -4,8 +4,11 @@ from aiogram.fsm.state import StatesGroup, State
 from aiogram import Router, F
 from keyboards import settings, crypto
 from db import Database
+from filters.chat_type import ChatTypeFilter
+
 
 router = Router()
+router.message.filter(ChatTypeFilter(chat_type=["private"]))
 db = Database("./database.db")
 
 class Settings(StatesGroup):
@@ -13,11 +16,10 @@ class Settings(StatesGroup):
 
 @router.message(StateFilter(None), Command("settings"))
 async def cmd_settings(message: Message):
-    if message.chat.type == 'private':
-        await message.answer(
-            "Выберите что вы хотите настроить...",
-            reply_markup=settings.get_setings()
-        )
+    await message.answer(
+        "Выберите что вы хотите настроить...",
+        reply_markup=settings.get_setings()
+    )
 
 @router.message(F.text.lower() == "crypto")
 async def answer_crypto(message: Message):

@@ -1,13 +1,14 @@
 from aiogram.types import Message
 from aiogram.filters import Command
 from aiogram import Router
+from filters.chat_type import ChatTypeFilter
 
 router = Router()
+router.message.filter(ChatTypeFilter(chat_type=["private"]))
 
 @router.message(Command("about"))
 async def cmd_help(message: Message):
-    if message.chat.type == 'private':
-        await message.answer(
+    await message.answer(
     """
 Это — бот-помощник от компании <b><a href="https://t.me/tivehive">TiveHive</a></b>.
 Автор: @mnz_pr
