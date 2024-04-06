@@ -7,9 +7,6 @@ class Database:
 
     def start(self):
         with self.conn:
-            self.cur.execute("DROP TABLE IF EXISTS `users`")
-            self.cur.execute("DROP TABLE IF EXISTS `cryptos`")
-
             self.cur.execute(
                 """
 CREATE TABLE IF NOT EXISTS `users`(
