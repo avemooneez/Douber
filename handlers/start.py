@@ -2,7 +2,6 @@ from aiogram.types import Message
 from aiogram.filters import Command
 from aiogram import Router, F
 from db import Database
-from aiogram import F
 
 router = Router()
 router.message.filter(F.chat.type.in_({"private"}))

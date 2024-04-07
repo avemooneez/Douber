@@ -1,7 +1,7 @@
 from aiogram.types import Message, ReplyKeyboardRemove, CallbackQuery
 from aiogram.filters import Command, StateFilter
 from aiogram.fsm.state import StatesGroup, State
-from aiogram import Router, F, F
+from aiogram import Router, F
 from keyboards import settings, crypto
 from db import Database
 
