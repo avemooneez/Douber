@@ -1,7 +1,9 @@
 from aiogram.types import Message
-from aiogram.filters import Command
 from aiogram import Router, F
 from aiogram.filters.command import CommandObject
+from aiogram.filters import Command, StateFilter
+from aiogram.fsm.state import StatesGroup, State
+from aiogram.fsm.context import FSMContext
 from dotenv import find_dotenv, load_dotenv
 from os import getenv
 import requests
@@ -12,6 +14,9 @@ router = Router()
 router.message.filter(F.chat.type.in_({"private"}))
 load_dotenv(find_dotenv())
 auth = getenv('SBER_ID')
+
+class GigaChat(StatesGroup):
+    response = State()
 
 def get_token(auth_token, scope='GIGACHAT_API_PERS'):
     """
@@ -126,16 +131,27 @@ headers = {
 
 response = requests.request("GET", url, headers=headers, data=payload, verify=False)
 
-@router.message(Command("gpt_giga"))
-async def cmd_gpt_giga(message: Message, command: CommandObject):
-    if command.args is None:
-        await message.answer("Ошибка: нет аргументов.")
+@router.message(StateFilter(None), Command("gpt_giga"))
+async def cmd_gpt_giga(message: Message, state: FSMContext):
+    #if command.args is None:
+    #    await message.answer("Ошибка: нет аргументов.")
+    #    return
+    await message.reply("Диалог с GigaChat начат.")
+    await state.set_state(GigaChat.response)
+
+
+@router.message(GigaChat.response)
+async def response(message: Message, state=FSMContext):
+    if message.text == "/cancel":
+        state.clear()
+        await message.answer("Диалог с GigaChat окончен.")
+        await state.set_state(None)
         return
-    query = command.args.split(" ", maxsplit=0)
     if 'conversation_history' not in globals():
         global conversation_history
-        response, conversation_history = get_chat_completion(giga_token, query[0])
+        response, conversation_history = get_chat_completion(giga_token, message.text)
     else:
-        response, conversation_history = get_chat_completion(giga_token, query[0], conversation_history)
-    response = f"{response.json()['choices'][0]['message']['content']}\n----------------------------------------------------------------\nЗакончить диалог - \cancel"
+        response, conversation_history = get_chat_completion(giga_token, message.text, conversation_history)
+    response = f"{response.json()['choices'][0]['message']['content']}\n----------------------------------------------------------------\nЗакончить диалог - /cancel"
     await message.reply(f"{response}", parse_mode="MarkDown")
+    await state.set_state(GigaChat.response)
