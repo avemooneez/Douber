@@ -137,7 +137,7 @@ async def cmd_gpt_giga(message: Message, state: FSMContext):
     #if command.args is None:
     #    await message.answer("Ошибка: нет аргументов.")
     #    return
-    await message.reply("Диалог с GigaChat начат.")
+    await message.reply("Диалог с GigaChat начат. Закончить — /cancel")
     await state.set_state(GigaChat.response)
 
 
