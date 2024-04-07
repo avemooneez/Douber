@@ -4,6 +4,7 @@ from aiogram.filters.command import CommandObject
 from aiogram.filters import Command, StateFilter
 from aiogram.fsm.state import StatesGroup, State
 from aiogram.fsm.context import FSMContext
+from aiogram.enums import ParseMode
 from dotenv import find_dotenv, load_dotenv
 from os import getenv
 import requests
@@ -153,5 +154,8 @@ async def response(message: Message, state=FSMContext):
     else:
         response, conversation_history = get_chat_completion(giga_token, message.text, conversation_history)
     response = f"{response.json()['choices'][0]['message']['content']}\n----------------------------------------------------------------\nЗакончить диалог - /cancel"
-    await message.reply(f"{response}", parse_mode="MarkDown")
+    try:
+        await message.reply(f"{response}", parse_mode=ParseMode.MARKDOWN)
+    except:
+        await message.reply(f"{response}", parse_mode=ParseMode.HTML)
     await state.set_state(GigaChat.response)
