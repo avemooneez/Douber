@@ -5,16 +5,15 @@ from aiogram.filters import Command, StateFilter
 from aiogram.fsm.state import StatesGroup, State
 from aiogram.fsm.context import FSMContext
 from aiogram.enums import ParseMode
-from dotenv import find_dotenv, load_dotenv
-from os import getenv
 import requests
 import uuid
 import json
+from utils import tokens
 
 router = Router()
 router.message.filter(F.chat.type.in_({"private"}))
-load_dotenv(find_dotenv())
-auth = getenv('SBER_ID')
+
+auth = tokens.sber_id
 
 class GigaChat(StatesGroup):
     response = State()

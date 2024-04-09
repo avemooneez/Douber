@@ -1,8 +1,7 @@
 import asyncio
 import logging
-from os import getenv
 from aiogram import Bot, Dispatcher
-from dotenv import find_dotenv, load_dotenv
+from utils import tokens
 from handlers import start, help, crypto, settings, about, gpt_giga
 from db import Database
 
@@ -11,8 +10,8 @@ async def main():
 
     db = Database("./database.db")
     db.start()
-    load_dotenv(find_dotenv())
-    bot = Bot(token=getenv('BOT_TOKEN'))
+    
+    bot = Bot(token=tokens.bot_token)
     dp = Dispatcher()
     
     dp.include_routers(start.router, help.router, crypto.router, settings.router, about.router, gpt_giga.router)
