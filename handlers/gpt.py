@@ -1,6 +1,5 @@
 from aiogram.types import Message
 from aiogram import Router, F
-from aiogram.filters.command import CommandObject
 from aiogram.filters import Command, StateFilter
 from aiogram.fsm.state import StatesGroup, State
 from aiogram.fsm.context import FSMContext
