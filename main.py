@@ -2,7 +2,7 @@ import asyncio
 import logging
 from aiogram import Bot, Dispatcher
 from utils import tokens
-from handlers import start, help, crypto, settings, about, gpt_giga
+from handlers import start, help, crypto, settings, about, gpt
 from db import Database
 
 async def main():
@@ -14,7 +14,7 @@ async def main():
     bot = Bot(token=tokens.bot_token)
     dp = Dispatcher()
     
-    dp.include_routers(start.router, help.router, crypto.router, settings.router, about.router, gpt_giga.router)
+    dp.include_routers(start.router, help.router, crypto.router, settings.router, about.router, gpt.router)
     
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)
