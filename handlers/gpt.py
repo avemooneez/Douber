@@ -7,13 +7,16 @@ from aiogram.enums import ParseMode
 import requests
 import uuid
 import json
-from utils import tokens, gigachat
+from utils import tokens, gigachat, chatgpt
 
 router = Router()
 router.message.filter(F.chat.type.in_({"private"}))
 auth = tokens.sber_id
 
 class GigaChat(StatesGroup):
+    response = State()
+
+class ChatCPT(StatesGroup):
     response = State()
 
 response = gigachat.get_token(auth)
@@ -31,14 +34,13 @@ response = requests.request("GET", url, headers=headers, data=payload, verify=Fa
 
 @router.message(StateFilter(None), Command("gpt_giga"))
 async def cmd_gpt(message: Message, state: FSMContext):
-    await message.reply("Диалог с GigaChat начат. Закончить — /cancel")
+    await message.reply("Диалог с GigaChat начат.\nЗакончить — /cancel")
     await state.set_state(GigaChat.response)
 
 
 @router.message(GigaChat.response)
 async def cmd_gpt_cycle(message: Message, state=FSMContext):
     if message.text == "/cancel":
-        state.clear()
         await message.answer("Диалог с GigaChat окончен.")
         await state.set_state(None)
         return
@@ -53,3 +55,20 @@ async def cmd_gpt_cycle(message: Message, state=FSMContext):
     except:
         await message.reply(f"{response}", parse_mode=ParseMode.HTML)
     await state.set_state(GigaChat.response)
+
+@router.message(StateFilter(None), Command("gpt_chat"))
+async def cmd_gpt(message: Message, state: FSMContext):
+    await message.reply("Диалог с ChatGPT начат.\nЗакончить — /cancel")
+    await state.set_state(ChatCPT.response)
+
+@router.message(ChatCPT.response)
+async def cmd_gpt_cycle(message: Message, state=FSMContext):
+    if message.text == "/cancel":
+        await message.answer("Диалог с ChatGPT окончен.")
+        await state.set_state(None)
+        return
+    try:
+        await message.reply(f"{chatgpt.get_chat_completion(user_message=message.text)}", parse_mode=ParseMode.MARKDOWN)
+    except:
+        await message.reply(f"{chatgpt.get_chat_completion(user_message=message.text)}", parse_mode=ParseMode.HTML)
+    await state.set_state(ChatCPT.response)
