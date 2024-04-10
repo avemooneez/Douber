@@ -8,7 +8,7 @@ from aiogram.fsm.storage.redis import RedisStorage
 storage = RedisStorage.from_url("redis://localhost:6379/0")
 router = Router()
 router.message.filter(F.chat.type.in_({"private"}))
-router.message.middleware(middleware=AntiFloodMiddleware(storage=storage))
+router.message.middleware(middleware=AntiFloodMiddleware(storage=storage, limit=3))
 
 @router.message(Command("crypto"))
 async def cmd_crypto(message: Message):

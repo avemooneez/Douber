@@ -6,8 +6,9 @@ from aiogram.fsm.storage.redis import RedisStorage
 
 class AntiFloodMiddleware(BaseMiddleware):
 
-    def __init__(self, storage: RedisStorage):
+    def __init__(self, storage: RedisStorage, limit):
         self.storage = storage
+        self.limit = limit
     
     async def __call__(self,
                        handler: Callable[[TelegramObject,Dict[str, Any]], Awaitable[Any]],
@@ -19,9 +20,8 @@ class AntiFloodMiddleware(BaseMiddleware):
         check_user = await self.storage.redis.get(name=user)
         if check_user:
             if int(check_user.decode()) == 1:
-                await self.storage.redis.set(name=user, value=1, ex=5)
                 return await event.answer("Пиши медленнее!")
             return
-        await self.storage.redis.set(name=user, value=1, ex=5)
+        await self.storage.redis.set(name=user, value=1, ex=self.limit)
 
         return await handler(event, data)
