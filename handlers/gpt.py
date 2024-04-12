@@ -16,7 +16,7 @@ router.message.filter(F.chat.type.in_({"private"}))
 class ChatCPT(StatesGroup):
     response = State()
 
-@router.message(StateFilter(None), Command("gpt_chat"))
+@router.message(StateFilter(None), Command("gpt"))
 async def cmd_gpt(message: Message, state: FSMContext):
     await message.reply("Диалог с ChatGPT начат.\nЗакончить — /cancel")
     await state.set_state(ChatCPT.response)
