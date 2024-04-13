@@ -1,7 +1,7 @@
-from aiogram.types import Message
-from aiogram.filters import Command
+from aiogram.types import CallbackQuery
 from aiogram import Router, F
 from utils import crypto
+from keyboards.back import back
 from middlewares.antiflood import AntiFloodMiddleware
 from aiogram.fsm.storage.redis import RedisStorage
 
@@ -10,6 +10,6 @@ router = Router()
 router.message.filter(F.chat.type.in_({"private"}))
 router.message.middleware(middleware=AntiFloodMiddleware(storage=storage, limit=3))
 
-@router.message(Command("crypto"))
-async def cmd_crypto(message: Message):
-    await message.answer(crypto.get_message(message.from_user.id))
+@router.callback_query(F.data == "crypto")
+async def edit_kb(callback: CallbackQuery):
+    await callback.message.edit_text(crypto.get_message(callback.from_user.id), reply_markup=back())
