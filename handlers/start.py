@@ -5,7 +5,6 @@ from keyboards.main import main_kb
 from db import Database
 
 router = Router()
-#router.message.filter(F.chat.type.in_({"private"}))
 db = Database("./database.db")
 
 @router.message(Command("start"))

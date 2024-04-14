@@ -5,7 +5,6 @@ from keyboards import settings, crypto, main
 from db import Database
 
 router = Router()
-router.message.filter(F.chat.type.in_({"private"}))
 db = Database("./database.db")
 
 class Settings(StatesGroup):

@@ -11,7 +11,6 @@ from utils import tokens, chatgpt
 
 
 router = Router()
-router.message.filter(F.chat.type.in_({"private"}))
 
 class ChatCPT(StatesGroup):
     response = State()
