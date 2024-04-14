@@ -22,6 +22,4 @@ async def cmd_start(message: Message):
 
 @router.callback_query(F.data == "close")
 async def close_kb(callback: CallbackQuery):
-    await callback.message.answer(text=f"{callback.message.message_id}, {callback.message.chat.id}")
-    await callback.bot.delete_message(callback.message.chat.id, (int(callback.message_id) + 1))
-    await callback.bot.delete_message(callback.message.chat.id, callback.message_id)
+    await callback.bot.delete_message(callback.message.chat.id, callback.message.message_id)
