@@ -1,8 +1,7 @@
-from aiogram.types import Message, ReplyKeyboardRemove, CallbackQuery
-from aiogram.filters import Command, StateFilter
+from aiogram.types import CallbackQuery
 from aiogram.fsm.state import StatesGroup, State
 from aiogram import Router, F
-from keyboards import settings, crypto
+from keyboards import settings, crypto, main
 from db import Database
 
 router = Router()
@@ -12,19 +11,27 @@ db = Database("./database.db")
 class Settings(StatesGroup):
     choosing_crypto = State()
 
-@router.message(StateFilter(None), Command("settings"))
-async def cmd_settings(message: Message):
-    await message.answer(
+@router.callback_query(F.data == "main")
+async def edit_kb(callback: CallbackQuery):
+    await callback.message.edit_text(
+"""Привет! Это — бот-помощник от компании <b><a href="https://t.me/tivehive">TiveHive</a></b>.
+Воспользуйся кнопками ниже для управления ботом""",
+                         reply_markup=main.main_kb(),
+                         parse_mode="html",
+                         disable_web_page_preview=True)
+
+@router.callback_query(F.data == "settings")
+async def edit_kb(callback: CallbackQuery):
+    await callback.message.edit_text(
         "Выберите что вы хотите настроить...",
         reply_markup=settings.get_setings()
     )
 
-@router.message(F.text.lower() == "crypto")
-async def answer_crypto(message: Message):
-    await message.answer("Принято!", reply_markup=ReplyKeyboardRemove())
-    await message.answer(
+@router.callback_query(F.data == "crypto_st")
+async def answer_crypto(callback: CallbackQuery):
+    await callback.message.edit_text(
         "Выберите криптовалюты для отображения",
-        reply_markup=crypto.get_cryptos(message.from_user.id)
+        reply_markup=crypto.get_cryptos(callback.from_user.id)
     )
 
 @router.callback_query(F.data == "BTCUSDT")
@@ -42,7 +49,7 @@ async def edit_kb(callback: CallbackQuery):
             reply_markup=crypto.get_cryptos(callback.from_user.id)
             )
     except:
-        await callback.message.answer("Unknown error. Please, try again")
+        await callback.answer("Unknown error. Please, try again")
 
 @router.callback_query(F.data == "ETHUSDT")
 async def edit_kb(callback: CallbackQuery):
@@ -60,7 +67,7 @@ async def edit_kb(callback: CallbackQuery):
             reply_markup=crypto.get_cryptos(callback.from_user.id)
             )
     except:
-        await callback.message.answer("Unknown error. Please, try again")
+        await callback.answer("Unknown error. Please, try again")
 
 @router.callback_query(F.data == "TONUSDT")
 async def edit_kb(callback: CallbackQuery):
@@ -78,7 +85,7 @@ async def edit_kb(callback: CallbackQuery):
             reply_markup=crypto.get_cryptos(callback.from_user.id)
             )
     except:
-        await callback.message.answer("Unknown error. Please, try again")
+        await callback.answer("Unknown error. Please, try again")
 
 @router.callback_query(F.data == "SOLUSDT")
 async def edit_kb(callback: CallbackQuery):
@@ -96,7 +103,7 @@ async def edit_kb(callback: CallbackQuery):
             reply_markup=crypto.get_cryptos(callback.from_user.id)
             )
     except:
-        await callback.message.answer("Unknown error. Please, try again")
+        await callback.answer("Unknown error. Please, try again")
 
 @router.callback_query(F.data == "ADAUSDT")
 async def edit_kb(callback: CallbackQuery):
@@ -114,7 +121,7 @@ async def edit_kb(callback: CallbackQuery):
             reply_markup=crypto.get_cryptos(callback.from_user.id)
             )
     except:
-        await callback.message.answer("Unknown error. Please, try again")
+        await callback.answer("Unknown error. Please, try again")
 
 @router.callback_query(F.data == "DOGEUSDT")
 async def edit_kb(callback: CallbackQuery):
@@ -132,12 +139,4 @@ async def edit_kb(callback: CallbackQuery):
             reply_markup=crypto.get_cryptos(callback.from_user.id)
             )
     except:
-        await callback.message.answer("Unknown error. Please, try again")
-
-
-@router.message(F.text.lower() == "test")
-async def answer_test(message: Message):
-    await message.answer(
-        "It's works!",
-        reply_markup=None
-    )
+        await callback.answer("Unknown error. Please, try again")
