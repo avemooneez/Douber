@@ -43,4 +43,6 @@ def get_cryptos(user_id) -> InlineKeyboardMarkup:
     elif selectedCryptos[0][5] == 0:
         kb.button(text="DOGE / Dogecoin", callback_data="DOGEUSDT")
     kb.adjust(2)
+    kb.button(text="Назад", callback_data="settings")
+    kb.adjust(2)
     return kb.as_markup(resize_keyboard=True)
