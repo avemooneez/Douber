@@ -4,7 +4,7 @@ from utils.tokens import openai_id
 client = OpenAI(api_key=f"{openai_id}", base_url="https://api.proxyapi.ru/openai/v1")
 
 
-def get_chat_completion(user_message, conversation_history=None):
+def get_chat_completion(user_message, conversation_history:list=None):
 
     # Если история диалога не предоставлена, инициализируем пустым списком
     if conversation_history is None:

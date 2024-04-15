@@ -4,11 +4,7 @@ from aiogram.filters import Command, StateFilter
 from aiogram.fsm.state import StatesGroup, State
 from aiogram.fsm.context import FSMContext
 from aiogram.enums import ParseMode
-import requests
-import uuid
-import json
-from utils import tokens, chatgpt
-
+from utils import chatgpt
 
 router = Router()
 
@@ -26,14 +22,23 @@ async def cmd_gpt_cycle(message: Message, state=FSMContext):
         await message.answer("Диалог с ChatGPT окончен.")
         await state.set_state(None)
         return
+    
+    if 'conversation_history' not in globals():
+        global conversation_history
+        conversation_history = []
+        response = chatgpt.get_chat_completion(message.text, conversation_history)
+    elif 'conversation_history' in globals():
+        response = chatgpt.get_chat_completion(message.text, conversation_history)
+        
     try:
         await message.reply(
-            f"{chatgpt.get_chat_completion(user_message=message.text)}",
+            f"{response}",
             parse_mode=ParseMode.MARKDOWN
             )
     except:
         await message.reply(
-            f"{chatgpt.get_chat_completion(user_message=message.text)}",
+            f"{response}",
             parse_mode=ParseMode.HTML
             )
+        
     await state.set_state(ChatCPT.response)
