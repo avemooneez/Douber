@@ -12,5 +12,5 @@ async def cmd_help(message: Message):
 Автор: @mnz_pr
 Исходный код: https://github.com/avemooneez/Douber
 
-Все команды вы видите ниже
+Невошедшие команды в основную клавиатуру вы видите ниже.
 """, parse_mode="html", disable_web_page_preview=True, reply_markup=all_commands.kb())
