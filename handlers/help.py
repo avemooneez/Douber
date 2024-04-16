@@ -1,17 +1,12 @@
 from aiogram.types import Message
 from aiogram.filters import Command
 from aiogram import Router, F
+from keyboards import all_commands
 
 router = Router()
 
-@router.message(Command("help"))
+@router.message(F.text == "Все команды")
 async def cmd_help(message: Message):
-    await message.answer(
-    """/start — перезапуск бота.
-/help — вывод доступных команд.
-/about — вывод информации о боте.
-/crypto — вывод последней цены покупки выбранных криптовалют.
-/gpt - начать диалог с языковой моделью
-/cancel — выход из диалога
-/settings — настроить некоторые другие команды. """
+    await message.reply(
+    "В клавиатуре ниже предоставлены все команды", reply_markup=all_commands.kb()
 )

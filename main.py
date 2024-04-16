@@ -2,7 +2,7 @@ import asyncio
 import logging
 from aiogram import Bot, Dispatcher, F
 from utils import tokens
-from handlers import start, help, support, crypto, settings, about, gpt
+from handlers import start, help, support, crypto, settings, about, gpt, donate
 from db import Database
 
 async def main():
@@ -14,7 +14,16 @@ async def main():
     bot = Bot(token=tokens.bot_token)
     dp = Dispatcher()
     
-    dp.include_routers(start.router, help.router, crypto.router, settings.router, about.router, gpt.router, support.router)
+    dp.include_routers(
+        start.router, 
+        help.router, 
+        crypto.router, 
+        settings.router, 
+        about.router, 
+        gpt.router, 
+        support.router, 
+        donate.router
+        )
     dp.message.filter(F.chat.type.in_({"private"}))
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)

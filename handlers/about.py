@@ -4,9 +4,9 @@ from aiogram import Router, F
 
 router = Router()
 
-@router.message(Command("about"))
+@router.message(F.text == "О боте")
 async def cmd_help(message: Message):
-    await message.answer(
+    await message.reply(
     """
 Это — бот-помощник от компании <b><a href="https://t.me/tivehive">TiveHive</a></b>.
 Автор: @mnz_pr

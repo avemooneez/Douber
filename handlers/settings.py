@@ -1,7 +1,7 @@
-from aiogram.types import CallbackQuery
+from aiogram.types import CallbackQuery, Message, ReplyKeyboardRemove
 from aiogram.fsm.state import StatesGroup, State
 from aiogram import Router, F
-from keyboards import settings, crypto, main
+from keyboards import settings, crypto
 from db import Database
 
 router = Router()
@@ -10,21 +10,16 @@ db = Database("./database.db")
 class Settings(StatesGroup):
     choosing_crypto = State()
 
-@router.callback_query(F.data == "main")
-async def edit_kb(callback: CallbackQuery):
-    await callback.message.edit_text(
-"""Привет! Это — бот-помощник от компании <b><a href="https://t.me/tivehive">TiveHive</a></b>.
-Воспользуйся кнопками ниже для управления ботом""",
-                         reply_markup=main.main_kb(),
-                         parse_mode="html",
-                         disable_web_page_preview=True)
-
 @router.callback_query(F.data == "settings")
 async def edit_kb(callback: CallbackQuery):
     await callback.message.edit_text(
         "Выберите что вы хотите настроить...",
         reply_markup=settings.get_setings()
     )
+
+@router.message(F.text == "Настройки")
+async def edit_kb(message: Message):
+    await message.reply("Выберите что вы хотите настроить...", reply_markup=settings.get_setings())
 
 @router.callback_query(F.data == "crypto_st")
 async def answer_crypto(callback: CallbackQuery):

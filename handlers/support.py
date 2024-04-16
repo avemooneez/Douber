@@ -4,6 +4,6 @@ from aiogram import Router, F
 
 router = Router()
 
-@router.message(Command("support"))
+@router.message(F.text == "Помощь")
 async def cmd_start(message: Message):
-    await message.answer("Остались какие-то вопросы? Вышла какая-то ошибка? Смело пиши @mnz_pr, и ты сможешь получить ответ на свой вопрос!")
+    await message.reply("Остались какие-то вопросы? Вышла какая-то ошибка?\nСмело пиши @mnz_pr, и ты сможешь получить ответ на свой вопрос!")
