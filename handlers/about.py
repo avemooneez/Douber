@@ -1,6 +1,6 @@
 from aiogram.types import Message
-from aiogram.filters import Command
 from aiogram import Router, F
+from keyboards import all_commands
 
 router = Router()
 
@@ -12,5 +12,5 @@ async def cmd_help(message: Message):
 Автор: @mnz_pr
 Исходный код: https://github.com/avemooneez/Douber
 
-Доступные команды можно посмотреть в /help.
-""", parse_mode="html", disable_web_page_preview=True)
+Все команды вы видите ниже
+""", parse_mode="html", disable_web_page_preview=True, reply_markup=all_commands.kb())

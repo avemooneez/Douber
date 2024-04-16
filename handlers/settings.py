@@ -134,3 +134,14 @@ async def edit_kb(callback: CallbackQuery):
             )
     except:
         await callback.answer("Unknown error. Please, try again")
+
+@router.callback_query(F.data == "close_st")
+async def cbq_close(callback: CallbackQuery):
+    await callback.bot.delete_messages(
+        chat_id=callback.message.chat.id,
+        message_ids=[
+            callback.message.message_id,
+            callback.message.message_id - 1
+            ]
+        )
+

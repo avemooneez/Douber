@@ -1,4 +1,4 @@
-from aiogram.types import Message, CallbackQuery
+from aiogram.types import Message, CallbackQuery, ReplyKeyboardRemove
 from aiogram import Router, F
 from aiogram.filters import StateFilter
 from aiogram.fsm.state import StatesGroup, State
@@ -14,6 +14,8 @@ class ChatCPT(StatesGroup):
 
 @router.message(StateFilter(None), F.text == "Языковая модель")
 async def cmd_gpt(message: Message, state: FSMContext):
+    await message.answer(text="Принято!", reply_markup=ReplyKeyboardRemove())
+    await message.bot.delete_message(message.chat.id, message.message_id + 1)
     await message.reply("Диалог с ChatGPT начат", reply_markup=back.back())
     await state.set_state(ChatCPT.response)
 

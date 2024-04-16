@@ -11,8 +11,6 @@ def main_kb() -> ReplyKeyboardMarkup:
         KeyboardButton(text="Настройки")
         )
     kb.row(
-        KeyboardButton(text="Помощь"),
-        KeyboardButton(text="Все команды"),
-        KeyboardButton(text="Донат")
+        KeyboardButton(text="О боте")
     )
     return kb.as_markup(resize_keyboard=True)
