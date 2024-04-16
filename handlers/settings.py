@@ -1,4 +1,4 @@
-from aiogram.types import CallbackQuery, Message, ReplyKeyboardRemove
+from aiogram.types import CallbackQuery, Message
 from aiogram.fsm.state import StatesGroup, State
 from aiogram import Router, F
 from keyboards import settings, crypto

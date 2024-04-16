@@ -2,7 +2,7 @@ import asyncio
 import logging
 from aiogram import Bot, Dispatcher, F
 from utils import tokens
-from handlers import start, help, support, crypto, settings, about, gpt, donate
+from handlers import start, support, crypto, settings, about, gpt, donate
 from db import Database
 
 async def main():
@@ -16,7 +16,6 @@ async def main():
     
     dp.include_routers(
         start.router, 
-        help.router, 
         crypto.router, 
         settings.router, 
         about.router, 
