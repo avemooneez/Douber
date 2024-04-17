@@ -29,30 +29,46 @@ DOGEUSDT INTEGER DEFAULT (0)
 )
 """
             )
-            print(self.cur.execute("SELECT * FROM `users`").fetchall(), self.cur.execute("SELECT * FROM `settings`").fetchall(), sep="\n")
+            self.cur.execute(
+                """
+CREATE TABLE IF NOT EXISTS `gpt`(
+user_id INTEGER PRIMARY KEY UNIQUE NOT NULL,
+version TEXT,
+tokens INTEGER DEFAULT (0)
+)
+"""
+            )
+            print(self.cur.execute("SELECT * FROM `users`").fetchall(),
+                  self.cur.execute("SELECT * FROM `settings`").fetchall(),
+                  self.cur.execute("SELECT * FROM `gpt`").fetchall(), 
+                  sep="\n")
             return
 
     def get_db(self):
         with self.conn:
-            print(self.cur.execute("SELECT * FROM `users`").fetchall(), self.cur.execute("SELECT * FROM `settings`").fetchall(), sep="\n")
+            print(self.cur.execute("SELECT * FROM `users`").fetchall(),
+                  self.cur.execute("SELECT * FROM `settings`").fetchall(),
+                  self.cur.execute("SELECT * FROM `gpt`").fetchall(), 
+                  sep="\n")
             return
     
-    def user_exists(self, user_id):
+    def user_exists(self, user_id: int):
         with self.conn:
             result = self.cur.execute("SELECT * FROM `users` WHERE `user_id` = ?", (user_id,)).fetchmany(1)
             return bool(len(result))
     
-    def add_user(self, user_id):
+    def add_user(self, user_id: int):
         with self.conn:
             self.cur.execute("INSERT INTO `users` (user_id) VALUES (?)", (user_id,))
             self.cur.execute("INSERT INTO `settings` (user_id) VALUES (?)", (user_id,))
+            self.cur.execute("INSERT INTO `gpt` (user_id, version) VALUES (?, ?)", (user_id, "gpt-3.5-turbo-0613",))
             return
     
-    def get_selectedCryptos(self, user_id):
+    def get_selectedCryptos(self, user_id: int):
         with self.conn:
             return self.cur.execute("SELECT `BTCUSDT`, `ETHUSDT`, `TONUSDT`, `SOLUSDT`, `ADAUSDT`, `DOGEUSDT` FROM `settings` WHERE `user_id` = ?", (user_id,)).fetchall()
     
-    def edit_selectedCryptos(self, user_id, selCrpt: str, OnOff: bool):
+    def edit_selectedCryptos(self, user_id: int, selCrpt: str, OnOff: bool):
         with self.conn:
             if selCrpt == "BTC" and OnOff == True:
                 return self.cur.execute("UPDATE `settings` SET `BTCUSDT` = ? WHERE `user_id` = ?", ('1', user_id,))
@@ -83,4 +99,19 @@ DOGEUSDT INTEGER DEFAULT (0)
                 return self.cur.execute("UPDATE `settings` SET `DOGEUSDT` = ? WHERE `user_id` = ?", ('1', user_id,))
             elif selCrpt == "DOGE" and OnOff == False:
                 return self.cur.execute("UPDATE `settings` SET `DOGEUSDT` = ? WHERE `user_id` = ?", ('0', user_id,))
-            
+
+    def add_used_tokens(self, user_id: int, used_tokens: int):
+        with self.conn:
+            old_used_tokens = self.cur.execute("SELECT `tokens` FROM `gpt` WHERE `user_id` = ?", (user_id,)).fetchmany(1)
+            print(old_used_tokens[0][0], used_tokens, sep="\n")
+            self.cur.execute("UPDATE `gpt` SET `tokens` = ? WHERE `user_id` = ?", ((old_used_tokens[0][0] + used_tokens), user_id,))
+            return
+    
+    def get_used_tokens(self, user_id: int):
+        with self.conn:
+            return self.cur.execute("SELECT `tokens` FROM `gpt` WHERE `user_id` = ?", (user_id,)).fetchmany(1)
+    
+    def get_model(self, user_id: int):
+        with self.conn:
+            return self.cur.execute("SELECT `version` FROM `gpt` WHERE `user_id` = ?", (user_id,)).fetchmany(1)
+

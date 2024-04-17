@@ -2,7 +2,7 @@ import asyncio
 import logging
 from aiogram import Bot, Dispatcher, F
 from utils import tokens
-from handlers import start, support, crypto, settings, about, gpt, donate
+from handlers import start, support, crypto, settings, about, gpt, donate, profile
 from db import Database
 
 async def main():
@@ -21,7 +21,8 @@ async def main():
         about.router, 
         gpt.router, 
         support.router, 
-        donate.router
+        donate.router,
+        profile.router
         )
     dp.message.filter(F.chat.type.in_({"private"}))
     await bot.delete_webhook(drop_pending_updates=True)

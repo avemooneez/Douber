@@ -31,9 +31,9 @@ async def cmd_gpt_cycle(message: Message, state=FSMContext):
     if 'conversation_history' not in globals():
         global conversation_history
         conversation_history = []
-        response = chatgpt.get_chat_completion(message.text, conversation_history)
+        response = chatgpt.get_chat_completion(message.from_user.id, message.text, conversation_history)
     elif 'conversation_history' in globals():
-        response = chatgpt.get_chat_completion(message.text, conversation_history)
+        response = chatgpt.get_chat_completion(message.from_user.id, message.text, conversation_history)
         
     try:
         await message.reply(
