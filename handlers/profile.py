@@ -2,7 +2,6 @@ from aiogram.types import Message
 from aiogram.filters import Command
 from aiogram import Router, F
 from aiogram.enums import ParseMode
-from keyboards.main import main_kb
 from db import Database
 
 router = Router()
