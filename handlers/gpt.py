@@ -36,7 +36,7 @@ async def close(callback: CallbackQuery, state: FSMContext):
 async def cmd_gpt_cycle(message: Message, state=FSMContext):
     used_tokens = db.get_used_tokens(message.from_user.id)
     router.message.middleware(middleware=ExcessOfTokens(used_tokens))
-
+    
     if 'conversation_history' not in globals():
         global conversation_history
         conversation_history = []

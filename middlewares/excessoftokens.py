@@ -1,6 +1,7 @@
 from typing import Any, Awaitable, Callable, Dict
 from aiogram.types import Message, TelegramObject
 from aiogram import BaseMiddleware
+from keyboards import main
 
 
 class ExcessOfTokens(BaseMiddleware):
@@ -15,5 +16,6 @@ class ExcessOfTokens(BaseMiddleware):
                        ) -> Any:
 
         if self.used_tokens[0][0] >= 50000:
-            return await event.answer("Токены закончились! Чтобы получить больше токенов необходимо поддержать проект, а скриншот о донате отправить @mnz_pr.")
+            return await event.answer("Токены закончились! Чтобы получить больше токенов необходимо поддержать проект, а скриншот о донате отправить @mnz_pr.",
+                                      reply_markup=main.main_kb())
         return await handler(event, data)
