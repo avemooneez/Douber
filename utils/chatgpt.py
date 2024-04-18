@@ -23,5 +23,4 @@ def get_chat_completion(user_id: int, user_message, conversation_history:list=No
       messages=conversation_history
     )
     db.add_used_tokens(user_id, response.usage.total_tokens)
-    print(db.get_used_tokens(user_id))
     return response.choices[0].message.content

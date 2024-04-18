@@ -103,7 +103,6 @@ tokens INTEGER DEFAULT (0)
     def add_used_tokens(self, user_id: int, used_tokens: int):
         with self.conn:
             old_used_tokens = self.cur.execute("SELECT `tokens` FROM `gpt` WHERE `user_id` = ?", (user_id,)).fetchmany(1)
-            print(old_used_tokens[0][0], used_tokens, sep="\n")
             self.cur.execute("UPDATE `gpt` SET `tokens` = ? WHERE `user_id` = ?", ((old_used_tokens[0][0] + used_tokens), user_id,))
             return
     
