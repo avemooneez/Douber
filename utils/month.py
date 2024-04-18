@@ -3,29 +3,29 @@ from datetime import datetime
 def next_month(month):
     match month:
         case 1:
-            return "Февраля"
+            return "февраля"
         case 2:
-            return "Марта"
+            return "марта"
         case 3:
-            return "Апреля"
+            return "фпреля"
         case 4:
-            return "Мая"
+            return "мая"
         case 5:
-            return "Июня"
+            return "июня"
         case 6:
-            return "Июля"
+            return "июля"
         case 7:
-            return "Августа"
+            return "августа"
         case 8:
-            return "Сентября"
+            return "сентября"
         case 9:
-            return "Октября"
+            return "октября"
         case 10:
-            return "Ноября"
+            return "ноября"
         case 11:
-            return "Декабря"
+            return "декабря"
         case 12:
-            return "Января"
+            return "января"
         
 
 def get_next_month():
