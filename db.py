@@ -133,4 +133,8 @@ tokens INTEGER DEFAULT (0)
             return self.cur.execute(
                 "SELECT `version` FROM `gpt` WHERE `user_id` = ?",
                 (user_id,)).fetchmany(1)
-
+    
+    def reset_limit(self):
+        with self.conn:
+            return self.cur.execute(
+                "UPDATE `gpt` SET `tokens` = 0")
