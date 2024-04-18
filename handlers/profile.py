@@ -2,6 +2,7 @@ from aiogram.types import Message
 from aiogram.filters import Command
 from aiogram import Router, F
 from aiogram.enums import ParseMode
+from utils.month import get_next_month 
 from db import Database
 
 router = Router()
@@ -17,8 +18,12 @@ async def cmd_profile(message: Message):
 <i><b>GPT:</b></i>
 <b>Модель</b> — <code>{model}</code>
 <b>Лимит токенов</b> — {limit} из 50,000
-Обновление 1 мая в 00:00 (UTC+3/MSK)
+Обновление 1 {month} в 00:00 (UTC+3/MSK)
 
 Чтобы получить больше токенов необходимо поддержать проект, а скриншот о донате отправить @mnz_pr."""
-    msg = msg_template.format(username=message.from_user.username, model=model[0][0], limit=tokens[0][0])
+    msg = msg_template.format(username=message.from_user.username,
+                              model=model[0][0],
+                              limit=tokens[0][0],
+                              month=get_next_month()
+                              )
     await message.reply(f"{msg}", parse_mode=ParseMode.HTML)
