@@ -16,10 +16,10 @@ async def main():
     
     dp.include_routers(
         start.router, 
-        crypto.router, 
+        crypto.router_crypto, 
         settings.router, 
         about.router, 
-        gpt.router, 
+        gpt.router_gpt, 
         support.router, 
         donate.router,
         profile.router

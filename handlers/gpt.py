@@ -10,32 +10,29 @@ from db import Database
 from utils import chatgpt
 
 db = Database("./database.db")
-router = Router()
+router_gpt = Router()
+router_gpt.message.middleware(middleware=ExcessOfTokens())
 
 class ChatCPT(StatesGroup):
     response = State()
 
-@router.message(StateFilter(None), F.text == "Языковая модель")
+@router_gpt.message(StateFilter(None), F.text == "Языковая модель")
 async def cmd_gpt(message: Message, state: FSMContext):
-    used_tokens = db.get_used_tokens(message.from_user.id)
-    router.message.middleware(middleware=ExcessOfTokens(used_tokens))
 
     await message.answer(text="Принято!", reply_markup=ReplyKeyboardRemove())
     await message.bot.delete_message(message.chat.id, message.message_id + 1)
     await message.reply("Диалог с ChatGPT начат", reply_markup=back.back())
     await state.set_state(ChatCPT.response)
 
-@router.callback_query(F.data == "main")
+@router_gpt.callback_query(F.data == "main")
 async def close(callback: CallbackQuery, state: FSMContext):
     await callback.message.answer("Диалог с ChatGPT окончен.", reply_markup=main.main_kb())
     await callback.answer()
     await state.set_state(None)
     return
 
-@router.message(ChatCPT.response)
+@router_gpt.message(ChatCPT.response)
 async def cmd_gpt_cycle(message: Message, state=FSMContext):
-    used_tokens = db.get_used_tokens(message.from_user.id)
-    router.message.middleware(middleware=ExcessOfTokens(used_tokens))
     
     if 'conversation_history' not in globals():
         global conversation_history
