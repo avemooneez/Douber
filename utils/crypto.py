@@ -1,12 +1,12 @@
 import requests
-from datetime import datetime
+import datetime
 from db import Database
 
 db = Database("./database.db")
 
 def get_message(user_id):
-    time_now_utc3 = datetime.now(tz="Europe/Moscow").strftime('%H:%M:%S')
-    msg = f"Текущее время: UTC+3 {time_now_utc3}"
+    time_now_utc3 = (datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=3)).strftime('%H:%M:%S')
+    msg = f"Текущее время: UTC+3/MSK {time_now_utc3}"
     selectedCryptos = db.get_selectedCryptos(user_id)
     if selectedCryptos[0][0] == 1:
         url = "https://api.coingecko.com/api/v3/coins/binance-bitcoin"
