@@ -5,7 +5,8 @@ from db import Database
 db = Database("./database.db")
 
 def get_message(user_id):
-    msg = f"Текущее время: UTC+3 {datetime.now(tz="Europe/Moscow").strftime('%H:%M:%S')}"
+    time_now_utc3 = datetime.now(tz="Europe/Moscow").strftime('%H:%M:%S')
+    msg = f"Текущее время: UTC+3 {time_now_utc3}"
     selectedCryptos = db.get_selectedCryptos(user_id)
     if selectedCryptos[0][0] == 1:
         url = "https://api.coingecko.com/api/v3/coins/binance-bitcoin"

@@ -28,7 +28,7 @@ async def main():
         )
     
     scheduler = AsyncIOScheduler(timezone="Europe/Moscow")
-    scheduler.add_job(reset_limit.reset, trigger="cron", day="1", start_date="2024-04-01 00:00:00")
+    scheduler.add_job(reset_limit.main, trigger="cron", day="1", start_date="2024-04-01 00:00:00")
     scheduler.start()
     
     dp.message.filter(F.chat.type.in_({"private"}))
