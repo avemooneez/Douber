@@ -32,7 +32,8 @@ DOGEUSDT INTEGER DEFAULT (0)
             self.cur.execute(
                 """
 CREATE TABLE IF NOT EXISTS `gpt`(
-user_id INTEGER PRIMARY KEY UNIQUE NOT NULL,
+id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
+user_id INTEGER UNIQUE NOT NULL,
 version TEXT,
 tokens INTEGER DEFAULT (0)
 )
@@ -138,3 +139,15 @@ tokens INTEGER DEFAULT (0)
         with self.conn:
             return self.cur.execute(
                 "UPDATE `gpt` SET `tokens` = 0")
+    
+    def total_tokens(self, loop_var):
+        with self.conn:
+            return self.cur.execute(
+                "SELECT `tokens` FROM `gpt` WHERE `id` = ?",
+                (loop_var,)).fetchmany(1)
+    
+    def total_users(self):
+        with self.conn:
+            return self.cur.execute(
+                "SELECT `id` FROM `gpt`"
+            ).fetchall()
