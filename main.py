@@ -11,7 +11,7 @@ async def main():
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s: %(message)s")
 
     db = Database("./database.db")
-    db.start() # start database
+    db.start()
     
     bot = Bot(token=tokens.bot_token)
     dp = Dispatcher()
