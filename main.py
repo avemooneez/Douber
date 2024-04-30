@@ -2,7 +2,7 @@ import asyncio
 import logging
 from aiogram import Bot, Dispatcher, F
 from utils import tokens, reset_limit
-from handlers import start, support, crypto, settings, about, gpt, donate, profile
+from handlers import start, support, crypto, settings, about, gpt, donate, profile, urlshort
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from datetime import datetime
 from db import Database
@@ -24,7 +24,8 @@ async def main():
         gpt.router_gpt, 
         support.router, 
         donate.router,
-        profile.router
+        profile.router,
+        urlshort.router
         )
     
     scheduler = AsyncIOScheduler(timezone="Europe/Moscow")
