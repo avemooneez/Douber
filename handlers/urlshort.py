@@ -2,10 +2,8 @@ from aiogram.types import Message
 from aiogram.filters import Command, CommandObject
 from aiogram import Router
 from utils.urlshort import short_url
-from db import Database
 
 router = Router()
-db = Database("./database.db")
 
 @router.message(Command("url"))
 async def cmd_urlshort(message: Message, command: CommandObject):
