@@ -2,9 +2,8 @@ import asyncio
 import logging
 from aiogram import Bot, Dispatcher, F
 from utils import tokens, reset_limit
-from handlers import start, support, crypto, settings, about, gpt, donate, profile, urlshort, downloader
+from handlers import start, support, crypto, settings, about, gpt, donate, profile, urlshort, downloader, tz
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
-from datetime import datetime
 from db import Database
 
 async def main():
@@ -26,7 +25,8 @@ async def main():
         donate.router,
         profile.router,
         urlshort.router,
-        downloader.router
+        downloader.router,
+        tz.router
         )
     
     scheduler = AsyncIOScheduler(timezone="Europe/Moscow")
