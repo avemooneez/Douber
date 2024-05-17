@@ -1,5 +1,3 @@
-import datetime
-import pytz
 import timezonefinder
 
 def tz(lon, lat):
