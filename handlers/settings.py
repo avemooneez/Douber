@@ -15,18 +15,21 @@ async def edit_kb(callback: CallbackQuery):
     await callback.message.edit_text(
         "Выберите что вы хотите настроить...",
         reply_markup=settings.get_setings()
-    )
+        )
 
 @router.message(F.text == "Настройки")
 async def edit_kb(message: Message):
-    await message.reply("Выберите что вы хотите настроить...", reply_markup=settings.get_setings())
+    await message.reply(
+        "Выберите что вы хотите настроить...",
+        reply_markup=settings.get_setings()
+        )
 
 @router.callback_query(F.data == "crypto_st")
 async def answer_crypto(callback: CallbackQuery):
     await callback.message.edit_text(
         "Выберите криптовалюты для отображения",
         reply_markup=crypto.get_cryptos(callback.from_user.id)
-    )
+        )
 
 @router.callback_query(F.data == "BTCUSDT")
 async def edit_kb(callback: CallbackQuery):
