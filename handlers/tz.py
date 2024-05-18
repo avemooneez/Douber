@@ -8,15 +8,19 @@ import pytz
 
 
 router = Router()
-
-@router.message(Command("timezone"))
-async def cmd_geo(message: Message):
-    await message.reply("Отправь мне свою геолокацию.", reply_markup=geolocation.geolocation())
+@router.callback_query(F.data == "timezone_st")
+async def cmd_geo(callback: CallbackQuery):
+    await callback.message.answer(
+        "🌍 Для корректной работы боту необходимо знать ваш часовой пояс. Пожалуйста, отправьте ваше местоположение.",
+        reply_markup=geolocation.geolocation()
+        )
+    await callback.answer()
 
 @router.message(F.location)
 async def on_location(message: Message):
     timezone = geo.tz(lon=message.location.longitude, lat=message.location.latitude)
     time = datetime.datetime.now(tz=pytz.timezone(timezone)).strftime("%H:%M")
     await message.answer(f"🌍 Ваш часовой пояс: {timezone}\n"
-                         f"🕐 Ваше время: {time}", reply_markup=main.main_kb()
+                         f"🕐 Ваше время: {time}",
+                         reply_markup=main.main_kb()
                          )
