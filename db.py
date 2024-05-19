@@ -141,8 +141,10 @@ tokens INTEGER DEFAULT (0)
     
     def reset_limit(self):
         with self.conn:
-            return self.cur.execute(
-                "UPDATE `gpt` SET `tokens` = 0")
+            self.cur.execute(
+                "UPDATE `gpt` SET `tokens` = 0"
+                )
+            return
     
     def total_tokens(self, loop_var: int):
         with self.conn:
