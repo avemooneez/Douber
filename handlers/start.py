@@ -4,6 +4,7 @@ from aiogram import Router, F
 from keyboards.main import main_kb
 from db import Database
 
+
 router = Router()
 db = Database("./database.db")
 

@@ -5,9 +5,12 @@ from keyboards import geolocation, main
 from utils import geo
 import datetime
 import pytz
+from db import Database
 
 
 router = Router()
+db = Database("./database.db")
+
 @router.callback_query(F.data == "timezone_st")
 async def cmd_geo(callback: CallbackQuery):
     await callback.message.answer(
@@ -24,3 +27,4 @@ async def on_location(message: Message):
                          f"🕐 Ваше время: {time}",
                          reply_markup=main.main_kb()
                          )
+    db.add_tz(timezone, message.from_user.id)

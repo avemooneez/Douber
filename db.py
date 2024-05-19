@@ -25,7 +25,8 @@ ETHUSDT INTEGER DEFAULT (0),
 TONUSDT INTEGER DEFAULT (0),
 SOLUSDT INTEGER DEFAULT (0),
 ADAUSDT INTEGER DEFAULT (0),
-DOGEUSDT INTEGER DEFAULT (0)
+DOGEUSDT INTEGER DEFAULT (0),
+timezone TEXT
 )
 """
             )
@@ -151,3 +152,16 @@ tokens INTEGER DEFAULT (0)
             return self.cur.execute(
                 "SELECT `id` FROM `gpt`"
             ).fetchall()
+    def add_tz(self, tz, user_id):
+        with self.conn:
+            try:
+                self.cur.execute(
+                    "INSERT INTO `settings` `timezone` VALUES (?) WHERE `user_id` = ?",
+                    (tz, user_id,)
+                )
+            except:
+                self.cur.execute(
+                    "UPDATE `settings` SET `timezone` = (?) WHERE `user_id` = ?",
+                    (tz, user_id,)
+                )
+            return
