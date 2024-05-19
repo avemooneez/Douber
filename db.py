@@ -54,6 +54,10 @@ tokens INTEGER DEFAULT (0)
                   sep="\n")
             return
     
+    def custom(self):
+        with self.conn:
+            pass
+
     def user_exists(self, user_id: int):
         with self.conn:
             result = self.cur.execute(
