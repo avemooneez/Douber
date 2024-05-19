@@ -116,7 +116,6 @@ tokens INTEGER DEFAULT (0)
             elif selCrpt == "DOGE" and OnOff == False:
                 return self.cur.execute("UPDATE `settings` SET `DOGEUSDT` = ? WHERE `user_id` = ?", ('0', user_id,))
 
-
     def add_used_tokens(self, user_id: int, used_tokens: int):
         with self.conn:
             old_used_tokens = self.cur.execute(
@@ -145,7 +144,7 @@ tokens INTEGER DEFAULT (0)
             return self.cur.execute(
                 "UPDATE `gpt` SET `tokens` = 0")
     
-    def total_tokens(self, loop_var):
+    def total_tokens(self, loop_var: int):
         with self.conn:
             return self.cur.execute(
                 "SELECT `tokens` FROM `gpt` WHERE `id` = ?",
@@ -156,7 +155,8 @@ tokens INTEGER DEFAULT (0)
             return self.cur.execute(
                 "SELECT `id` FROM `gpt`"
             ).fetchall()
-    def add_tz(self, tz, user_id):
+
+    def add_tz(self, tz: str, user_id: int):
         with self.conn:
             try:
                 self.cur.execute(
