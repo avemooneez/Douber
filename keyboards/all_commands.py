@@ -5,7 +5,8 @@ def kb() -> ReplyKeyboardMarkup:
     kb = ReplyKeyboardBuilder()
     kb.row(
         KeyboardButton(text="Помощь"),
-        KeyboardButton(text="Донат")
+        KeyboardButton(text="Донат"),
+        KeyboardButton(text="Сократить ссылку")
     )
     kb.row(
         KeyboardButton(text="Закрыть")
