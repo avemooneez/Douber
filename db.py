@@ -40,10 +40,7 @@ tokens INTEGER DEFAULT (0)
 )
 """
             )
-            print(self.cur.execute("SELECT * FROM `users`").fetchall(),
-                  self.cur.execute("SELECT * FROM `settings`").fetchall(),
-                  self.cur.execute("SELECT * FROM `gpt`").fetchall(), 
-                  sep="\n")
+            self.get_db()
             return
 
     def get_db(self):
