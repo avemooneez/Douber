@@ -2,6 +2,7 @@ from aiogram.types import Message
 from aiogram.filters import Command
 from aiogram import Router, F
 from keyboards.main import main_kb
+from aiogram.fsm.context import FSMContext
 from db import Database
 
 
@@ -10,7 +11,8 @@ db = Database("./database.db")
 
 @router.message(Command("start"))
 @router.message(F.text == "Закрыть")
-async def cmd_start(message: Message):
+async def cmd_start(message: Message, state: FSMContext):
+    await state.set_state(None)
     if not db.user_exists(message.from_user.id):
         db.add_user(message.from_user.id)
         db.get_db()
