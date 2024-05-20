@@ -14,7 +14,7 @@ async def cmd_help(message: Message):
 Исходный код: https://github.com/avemooneez/Douber
 
 Невошедшие команды в основную клавиатуру вы видите ниже.
-Также ещё не в глобальном использовании команды /url, /download, /timezone""",
+Также ещё не в глобальном использовании команды /url, /download""",
     parse_mode="html",
     disable_web_page_preview=True,
     reply_markup=all_commands.kb()
