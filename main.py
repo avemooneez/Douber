@@ -20,13 +20,12 @@ async def main():
         crypto.router_crypto, 
         settings.router, 
         about.router, 
-        gpt.router_gpt, 
         support.router, 
         donate.router,
         profile.router,
         urlshort.router,
-        downloader.router,
-        tz.router
+        tz.router,
+        gpt.router_gpt
         )
     
     scheduler = AsyncIOScheduler(timezone="Europe/Moscow")
