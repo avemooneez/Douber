@@ -13,8 +13,7 @@ async def cmd_help(message: Message):
 Автор: @mnz_pr
 Исходный код: https://github.com/avemooneez/Douber
 
-Невошедшие команды в основную клавиатуру вы видите ниже.
-Также ещё не в глобальном использовании команды /url, /download""",
+Невошедшие команды в основную клавиатуру вы видите ниже.""",
     parse_mode="html",
     disable_web_page_preview=True,
     reply_markup=all_commands.kb()
