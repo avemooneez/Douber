@@ -54,6 +54,10 @@ tokens INTEGER DEFAULT (0)
     def custom(self):
         with self.conn:
             pass
+    
+    def get_users(self):
+        with self.conn:
+            return self.cur.execute("SELECT `user_id` FROM `users`").fetchall()
 
     def user_exists(self, user_id: int):
         with self.conn:
